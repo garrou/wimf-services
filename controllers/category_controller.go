@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"wimf-services/dto"
 	"wimf-services/helpers"
 	"wimf-services/services"
 )
@@ -29,6 +30,15 @@ func (c *categoryController) Routes(e *gin.Engine) {
 }
 
 func (c *categoryController) Get(ctx *gin.Context) {
-	categories := c.categoryService.Get()
+	var categories []dto.CategoryDto
+	res := c.categoryService.Get()
+
+	for _, c := range res {
+		categories = append(categories, dto.CategoryDto{
+			Id:    c.ID,
+			Name:  c.Name,
+			Image: c.Image,
+		})
+	}
 	ctx.JSON(http.StatusOK, helpers.NewResponse("", categories))
 }

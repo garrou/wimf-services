@@ -26,6 +26,10 @@ var (
 	categoryRepository = repositories.NewCategoryRepository(db)
 	categoryService    = services.NewCategoryService(categoryRepository)
 	categoryController = controllers.NewCategoryController(categoryService, jwtHelper)
+
+	foodRepository = repositories.NewFoodRepository(db)
+	foodService    = services.NewFoodService(foodRepository)
+	foodController = controllers.NewFoodController(foodService, jwtHelper)
 )
 
 func main() {
@@ -40,6 +44,7 @@ func main() {
 	authController.Routes(router)
 	userController.Routes(router)
 	categoryController.Routes(router)
+	foodController.Routes(router)
 
 	if err := router.Run(fmt.Sprintf(":%s", os.Getenv("PORT"))); err != nil {
 		log.Fatal(err)
