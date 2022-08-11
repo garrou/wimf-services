@@ -19,6 +19,13 @@ var (
 	userRepository = repositories.NewUserRepository(db)
 	authService    = services.NewAuthService(userRepository)
 	authController = controllers.NewAuthController(authService, jwtHelper)
+
+	userService    = services.NewUserService(userRepository)
+	userController = controllers.NewUserController(userService, jwtHelper)
+
+	categoryRepository = repositories.NewCategoryRepository(db)
+	categoryService    = services.NewCategoryService(categoryRepository)
+	categoryController = controllers.NewCategoryController(categoryService, jwtHelper)
 )
 
 func main() {
@@ -31,6 +38,8 @@ func main() {
 		panic(err.Error())
 	}
 	authController.Routes(router)
+	userController.Routes(router)
+	categoryController.Routes(router)
 
 	if err := router.Run(fmt.Sprintf(":%s", os.Getenv("PORT"))); err != nil {
 		log.Fatal(err)
