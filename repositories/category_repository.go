@@ -19,7 +19,7 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 
 func (c *categoryRepository) Get() []entities.Category {
 	var categories []entities.Category
-	res := c.db.Find(&categories)
+	res := c.db.Find(&categories).Order("id")
 
 	if res.Error != nil {
 		return nil
