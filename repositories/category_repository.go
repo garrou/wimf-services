@@ -7,6 +7,7 @@ import (
 
 type CategoryRepository interface {
 	Get() []entities.Category
+	GetFoodsByCategory(id int, userId string) []entities.Food
 }
 
 type categoryRepository struct {
@@ -19,10 +20,24 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 
 func (c *categoryRepository) Get() []entities.Category {
 	var categories []entities.Category
-	res := c.db.Find(&categories).Order("id")
+	res := c.db.
+		Find(&categories).
+		Order("id")
 
 	if res.Error != nil {
 		return nil
 	}
 	return categories
+}
+
+func (c *categoryRepository) GetFoodsByCategory(id int, userId string) []entities.Food {
+	var foods []entities.Food
+	res := c.db.
+		Find(&foods, "category_id = ? AND user_id = ?", id, userId).
+		Order("added_at DESC")
+
+	if res.Error != nil {
+		return nil
+	}
+	return foods
 }
