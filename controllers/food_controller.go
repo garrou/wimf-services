@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"wimf-services/dto"
 	"wimf-services/helpers"
 	"wimf-services/services"
@@ -14,6 +15,7 @@ type FoodController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	Search(ctx *gin.Context)
+	Delete(ctx *gin.Context)
 }
 
 type foodController struct {
@@ -32,6 +34,7 @@ func (f *foodController) Routes(e *gin.Engine) {
 		routes.GET("/", f.Get)
 		routes.GET("/search", f.Search)
 		routes.PUT("/", f.Update)
+		routes.DELETE("/:id", f.Delete)
 	}
 }
 
@@ -82,4 +85,21 @@ func (f *foodController) Search(ctx *gin.Context) {
 	userId := f.jwtHelper.ExtractUserId(ctx.GetHeader("Authorization"))
 	foods := f.foodService.Search(query, userId)
 	ctx.JSON(http.StatusOK, helpers.NewResponse("", foods))
+}
+
+func (f *foodController) Delete(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Données erronées", nil))
+		return
+	}
+	userId := f.jwtHelper.ExtractUserId(ctx.GetHeader("Authorization"))
+	deleted := f.foodService.Delete(id, userId)
+
+	if deleted {
+		ctx.JSON(http.StatusOK, helpers.NewResponse("Aliment supprimé", nil))
+	} else {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Erreur durant la suppression", nil))
+	}
 }

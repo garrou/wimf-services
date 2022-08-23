@@ -11,6 +11,7 @@ type FoodRepository interface {
 	FindById(id int, userId string) interface{}
 	FindByQuery(query, userId string) []entities.Food
 	FindByUserId(userId string) []entities.Food
+	Delete(id int, userId string) bool
 }
 
 type foodRepository struct {
@@ -71,4 +72,10 @@ func (f *foodRepository) FindByQuery(query, userId string) []entities.Food {
 		return nil
 	}
 	return foods
+}
+
+func (f *foodRepository) Delete(id int, userId string) bool {
+	res := f.db.
+		Delete(&entities.Food{ID: id, UserID: userId})
+	return res.Error == nil
 }

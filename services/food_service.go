@@ -12,6 +12,7 @@ type FoodService interface {
 	Update(food dto.FoodUpdateDto) interface{}
 	Search(query, userId string) []dto.FoodDto
 	GetByUserId(userId string) []dto.FoodDto
+	Delete(id int, userId string) bool
 }
 
 type foodService struct {
@@ -108,4 +109,8 @@ func (f *foodService) GetByUserId(userId string) []dto.FoodDto {
 		})
 	}
 	return foods
+}
+
+func (f *foodService) Delete(id int, userId string) bool {
+	return f.foodRepository.Delete(id, userId)
 }
