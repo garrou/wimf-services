@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"wimf-services/dto"
 	"wimf-services/entities"
 	"wimf-services/helpers"
 	"wimf-services/middlewares"
@@ -35,8 +36,10 @@ func (u *userController) Get(ctx *gin.Context) {
 	userId := u.jwtHelper.ExtractUserId(ctx.GetHeader("Authorization"))
 	res := u.userService.Get(userId)
 
-	if _, ok := res.(entities.User); ok {
-		ctx.JSON(http.StatusOK, nil)
+	if user, ok := res.(entities.User); ok {
+		ctx.JSON(http.StatusOK, helpers.NewResponse("", dto.UserDto{
+			Username: user.Username,
+		}))
 	} else {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Impossible de récupérer votre profil", nil))
 	}
