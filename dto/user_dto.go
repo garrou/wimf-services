@@ -31,3 +31,26 @@ func (u *UserCreateDto) TrimSpace() {
 func (u *UserCreateDto) IsValid() bool {
 	return len(u.Password) >= 8 && u.Password == u.Confirm && len(u.Username) >= 3
 }
+
+type UsernameDto struct {
+	UserId   string
+	Username string `json:"username" binding:"required" validate:"min:3,max:50"`
+}
+
+type PasswordDto struct {
+	UserId   string
+	Current  string `json:"current" binding:"required"`
+	Password string `json:"password" binding:"required" validate:"min:8,max:50"`
+	Confirm  string `json:"confirm" binding:"required" validate:"min:8,max:50"`
+}
+
+// TrimSpace spaces on user information
+func (p *PasswordDto) TrimSpace() {
+	p.Password = strings.TrimSpace(p.Password)
+	p.Confirm = strings.TrimSpace(p.Confirm)
+}
+
+// IsValid checks if user information is valid
+func (p *PasswordDto) IsValid() bool {
+	return len(p.Password) >= 8 && p.Password == p.Confirm
+}
