@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"wimf-services/dto"
 	"wimf-services/helpers"
+	"wimf-services/middlewares"
 	"wimf-services/services"
 )
 
@@ -28,7 +29,7 @@ func NewFoodController(foodService services.FoodService, jwtHelper helpers.JwtHe
 }
 
 func (f *foodController) Routes(e *gin.Engine) {
-	routes := e.Group("/api/foods")
+	routes := e.Group("/api/foods", middlewares.AuthorizeJwt(f.jwtHelper))
 	{
 		routes.POST("/", f.Create)
 		routes.GET("/", f.Get)
@@ -36,6 +37,7 @@ func (f *foodController) Routes(e *gin.Engine) {
 		routes.PUT("/", f.Update)
 		routes.DELETE("/:id", f.Delete)
 	}
+
 }
 
 func (f *foodController) Create(ctx *gin.Context) {

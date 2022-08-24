@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"wimf-services/helpers"
+	"wimf-services/middlewares"
 	"wimf-services/services"
 )
 
@@ -24,7 +25,7 @@ func NewCategoryController(categoryService services.CategoryService, jwtHelper h
 }
 
 func (c *categoryController) Routes(e *gin.Engine) {
-	routes := e.Group("/api/categories")
+	routes := e.Group("/api/categories", middlewares.AuthorizeJwt(c.jwtHelper))
 	{
 		routes.GET("/", c.Get)
 		routes.GET("/:id/foods", c.GetFoodsByCategory)
