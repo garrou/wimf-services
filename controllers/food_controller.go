@@ -34,7 +34,7 @@ func (f *foodController) Routes(e *gin.Engine) {
 		routes.POST("/", f.Create)
 		routes.GET("/", f.Get)
 		routes.GET("/search", f.Search)
-		routes.PUT("/", f.Update)
+		routes.PUT("/:id", f.Update)
 		routes.DELETE("/:id", f.Delete)
 	}
 
