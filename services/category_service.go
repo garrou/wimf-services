@@ -42,7 +42,6 @@ func (c *categoryService) GetFoodsByCategory(id int, userId string) []dto.FoodDt
 			Name:       f.Name,
 			Details:    f.Details,
 			CategoryId: f.CategoryID,
-			AddedAt:    f.AddedAt,
 			Quantity:   f.Quantity,
 			FreezeAt:   f.FreezeAt,
 		})

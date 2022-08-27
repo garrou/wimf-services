@@ -28,6 +28,5 @@ type FoodDto struct {
 	CategoryId int       `json:"categoryId"`
 	Quantity   int       `json:"quantity"`
 	Details    string    `json:"details"`
-	AddedAt    time.Time `json:"addedAt"`
 	FreezeAt   time.Time `json:"freezeAt"`
 }

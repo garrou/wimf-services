@@ -1,7 +1,6 @@
 package services
 
 import (
-	"time"
 	"wimf-services/dto"
 	"wimf-services/entities"
 	"wimf-services/repositories"
@@ -30,7 +29,6 @@ func (f *foodService) Create(food dto.FoodCreateDto) interface{} {
 		FreezeAt:   food.FreezeAt,
 		Quantity:   food.Quantity,
 		Details:    food.Details,
-		AddedAt:    time.Now(),
 		UserID:     food.UserId,
 	}
 	res := f.foodRepository.Save(toCreate)
@@ -40,7 +38,6 @@ func (f *foodService) Create(food dto.FoodCreateDto) interface{} {
 			Id:         food.ID,
 			Name:       food.Name,
 			Quantity:   food.Quantity,
-			AddedAt:    food.AddedAt,
 			FreezeAt:   food.FreezeAt,
 			Details:    food.Details,
 			CategoryId: food.CategoryID,
@@ -65,7 +62,6 @@ func (f *foodService) Update(foodDto dto.FoodUpdateDto) interface{} {
 				Id:         food.ID,
 				Name:       food.Name,
 				Quantity:   food.Quantity,
-				AddedAt:    food.AddedAt,
 				FreezeAt:   food.FreezeAt,
 				Details:    food.Details,
 				CategoryId: food.CategoryID,
@@ -84,7 +80,6 @@ func (f *foodService) Search(query, userId string) []dto.FoodDto {
 			Id:         f.ID,
 			Name:       f.Name,
 			Quantity:   f.Quantity,
-			AddedAt:    f.AddedAt,
 			FreezeAt:   f.FreezeAt,
 			Details:    f.Details,
 			CategoryId: f.CategoryID,
@@ -102,7 +97,6 @@ func (f *foodService) GetByUserId(userId string) []dto.FoodDto {
 			Id:         f.ID,
 			Name:       f.Name,
 			Quantity:   f.Quantity,
-			AddedAt:    f.AddedAt,
 			FreezeAt:   f.FreezeAt,
 			Details:    f.Details,
 			CategoryId: f.CategoryID,

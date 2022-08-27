@@ -34,7 +34,7 @@ func (c *categoryRepository) GetFoodsByCategory(id int, userId string) []entitie
 	var foods []entities.Food
 	res := c.db.
 		Find(&foods, "category_id = ? AND user_id = ?", id, userId).
-		Order("added_at DESC")
+		Order("id")
 
 	if res.Error != nil {
 		return nil
