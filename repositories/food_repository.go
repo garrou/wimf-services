@@ -1,13 +1,13 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
 	"wimf-services/entities"
+
+	"gorm.io/gorm"
 )
 
 type FoodRepository interface {
 	Save(food entities.Food) interface{}
-	Find() []entities.Food
 	FindById(id int, userId string) interface{}
 	FindByQuery(query, userId string) []entities.Food
 	FindByUserId(userId string) []entities.Food
@@ -33,19 +33,9 @@ func (f *foodRepository) Save(food entities.Food) interface{} {
 	return food
 }
 
-func (f *foodRepository) Find() []entities.Food {
-	var foods []entities.Food
-	res := f.db.Find(&foods)
-
-	if res.Error != nil {
-		return nil
-	}
-	return foods
-}
-
 func (f *foodRepository) FindById(id int, userId string) interface{} {
 	var food entities.Food
-	f.db.Find(&food, "id = ? AND user_id = ?", id, userId)
+	f.db.First(&food, "id = ? AND user_id = ?", id, userId)
 	return food
 }
 

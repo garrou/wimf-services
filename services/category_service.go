@@ -20,7 +20,7 @@ func NewCategoryService(categoryRepository repositories.CategoryRepository) Cate
 
 func (c *categoryService) Get() []dto.CategoryDto {
 	var categories []dto.CategoryDto
-	res := c.categoryRepository.Get()
+	res := c.categoryRepository.Find()
 
 	for _, c := range res {
 		categories = append(categories, dto.CategoryDto{
@@ -34,7 +34,7 @@ func (c *categoryService) Get() []dto.CategoryDto {
 
 func (c *categoryService) GetFoodsByCategory(id int, userId string) []dto.FoodDto {
 	var foods []dto.FoodDto
-	res := c.categoryRepository.GetFoodsByCategory(id, userId)
+	res := c.categoryRepository.FindFoodsByCategory(id, userId)
 
 	for _, f := range res {
 		foods = append(foods, dto.FoodDto{

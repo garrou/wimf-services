@@ -8,6 +8,6 @@ type Food struct {
 	CategoryID int       `gorm:"not null;"`
 	Quantity   int       `gorm:"not null;"`
 	FreezeAt   time.Time `gorm:"not null;"`
-	Details    string    `gorm:"type:varchar(255);"`
+	Details    string    `gorm:"type:varchar(1000);"`
 	UserID     string    `gorm:"type:varchar(50);not null;"`
 }

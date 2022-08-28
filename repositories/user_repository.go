@@ -29,13 +29,13 @@ func (u *userRepository) Save(user entities.User) entities.User {
 
 func (u *userRepository) FindByUsername(username string) interface{} {
 	var user entities.User
-	u.db.Find(&user, "username = ?", username)
+	u.db.First(&user, "username = ?", username)
 	return user
 }
 
 func (u *userRepository) FindById(id string) interface{} {
 	var user entities.User
-	u.db.Find(&user, "id = ?", id)
+	u.db.First(&user, "id = ?", id)
 	return user
 }
 
