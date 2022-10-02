@@ -47,7 +47,6 @@ func (a *authService) Login(username, password string) interface{} {
 		if user.Username == username && same {
 			return res
 		}
-		return false
 	}
 	return false
 }

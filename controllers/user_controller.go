@@ -49,10 +49,17 @@ func (u *userController) Get(ctx *gin.Context) {
 	}
 }
 
+// UpdateUsername updates the username of authentication user
 func (u *userController) UpdateUsername(ctx *gin.Context) {
 	var usernameDto dto.UsernameDto
 
 	if errDto := ctx.ShouldBind(&usernameDto); errDto != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Données erronées", nil))
+		return
+	}
+	usernameDto.TrimSpace()
+
+	if !usernameDto.IsValid() {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Données erronées", nil))
 		return
 	}
@@ -66,10 +73,17 @@ func (u *userController) UpdateUsername(ctx *gin.Context) {
 	}
 }
 
+// UpdatePassword updates the password of authentication user
 func (u *userController) UpdatePassword(ctx *gin.Context) {
 	var userDto dto.PasswordDto
 
 	if errDto := ctx.ShouldBind(&userDto); errDto != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Données erronées", nil))
+		return
+	}
+	userDto.TrimSpace()
+
+	if !userDto.IsValid() {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helpers.NewResponse("Données erronées", nil))
 		return
 	}
