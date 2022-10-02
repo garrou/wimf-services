@@ -1,7 +1,6 @@
 package services
 
 import (
-	"strings"
 	"wimf-services/dto"
 	"wimf-services/entities"
 	"wimf-services/helpers"
@@ -30,7 +29,7 @@ func (u *userService) UpdateUsername(dto dto.UsernameDto) interface{} {
 	res := u.userRepository.FindById(dto.UserId)
 
 	if user, ok := res.(entities.User); ok {
-		user.Username = strings.TrimSpace(dto.Username)
+		user.Username = dto.Username
 		return u.userRepository.Save(user)
 	}
 	return nil
@@ -38,12 +37,11 @@ func (u *userService) UpdateUsername(dto dto.UsernameDto) interface{} {
 
 func (u *userService) UpdatePassword(dto dto.PasswordDto) interface{} {
 	res := u.userRepository.FindById(dto.UserId)
-	dto.TrimSpace()
 
 	if user, ok := res.(entities.User); ok {
 		same := helpers.ComparePassword(user.Password, dto.Current)
 
-		if same && dto.IsValid() {
+		if same {
 			user.Password = helpers.HashPassword(dto.Password)
 			return u.userRepository.Save(user)
 		}

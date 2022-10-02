@@ -35,6 +35,17 @@ func (u *UserCreateDto) IsValid() bool {
 type UsernameDto struct {
 	UserId   string
 	Username string `json:"username" binding:"required" validate:"min:3,max:50"`
+	Confirm  string `json:"confirm" binding:"required" validate:"min:3,max:50"`
+}
+
+// TrimSpace spaces on user information
+func (u *UsernameDto) TrimSpace() {
+	u.Username = strings.TrimSpace(u.Username)
+	u.Confirm = strings.TrimSpace(u.Confirm)
+}
+
+func (u *UsernameDto) IsValid() bool {
+	return len(u.Username) >= 3 && u.Username == u.Confirm
 }
 
 type PasswordDto struct {
